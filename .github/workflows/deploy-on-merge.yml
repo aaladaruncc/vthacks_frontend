@@ -12,7 +12,7 @@ jobs:
 
     env:
       APP_NAME: ${{ secrets.EBS_APP_NAME }}
-      PRODUCTION_ENV_NAME: ${{ secrets.EBS_ENV_BASE }}-prod
+      PRODUCTION_ENV_NAME: ${{ secrets.EBS_ENV_BASE }}
       AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
 
     steps:
