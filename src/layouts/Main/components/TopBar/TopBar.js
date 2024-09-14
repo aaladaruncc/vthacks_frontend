@@ -5,11 +5,10 @@ import Button from '@mui/material/Button';
 import { alpha, useTheme } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import { NavItem } from './components';
 import ThemeModeToggler from "../../../../components/ThemeModeToggler";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
+const TopBar = ({ onSidebarOpen, pages, colorInvert = false }) => {
     const theme = useTheme();
     const { mode } = theme.palette;
     const isMd = useMediaQuery(theme.breakpoints.up('md'), {
@@ -106,10 +105,10 @@ const Topbar = ({ onSidebarOpen, pages, colorInvert = false }) => {
     );
 };
 
-Topbar.propTypes = {
+TopBar.propTypes = {
     onSidebarOpen: PropTypes.func,
     pages: PropTypes.object,
     colorInvert: PropTypes.bool,
 };
 
-export default Topbar;
+export default TopBar;

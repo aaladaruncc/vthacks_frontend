@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
-import { SidebarNav } from './components';
+import SidebarNav from './SidebarNav';
 
-const Sidebar = ({ pages, open, variant, onClose }) => {
+const SideBar = ({ pages, open, variant, onClose }) => {
     return (
         <Drawer
             anchor="left"
@@ -30,11 +30,11 @@ const Sidebar = ({ pages, open, variant, onClose }) => {
     );
 };
 
-Sidebar.propTypes = {
+SideBar.propTypes = {
     onClose: PropTypes.func,
     open: PropTypes.bool.isRequired,
     variant: PropTypes.string.isRequired,
     pages: PropTypes.object.isRequired,
 };
 
-export default Sidebar;
+export default SideBar;

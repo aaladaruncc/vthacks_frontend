@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 
-import NavItem from './components/NavItem';
 
 const SidebarNav = ({ pages }) => {
     const theme = useTheme();
