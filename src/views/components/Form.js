@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 
-const FormPage = () => {
+const Form = () => {
   const [formData, setFormData] = useState({
     school: null,
     restaurantProximity: 1,
@@ -293,4 +293,4 @@ const FormPage = () => {
   );
 };
 
-export default FormPage;
+export default Form;
