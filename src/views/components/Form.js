@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Box, Typography, Slider, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, Paper, Grid } from '@mui/material';
 
-const FormPage = () => {
+const Form = () => {
   const [formData, setFormData] = useState({
     zipCode: '',              // Zip code field
     restaurantProximity: 1,    // Proximity value for restaurants
@@ -224,4 +224,4 @@ const FormPage = () => {
   );
 };
 
-export default FormPage;
+export default Form;
