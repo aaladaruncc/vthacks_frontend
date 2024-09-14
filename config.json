@@ -1,0 +1,32 @@
+[
+  {
+    "Namespace": "aws:autoscaling:launchconfiguration",
+    "OptionName": "IamInstanceProfile",
+    "Value": "aws-elasticbeanstalk-ec2-role"
+  },
+  {
+    "Namespace": "aws:elasticbeanstalk:environment",
+    "OptionName": "LoadBalancerType",
+    "Value": "application"
+  },
+  {
+    "Namespace": "aws:elbv2:listener:80",
+    "OptionName": "ListenerEnabled",
+    "Value": "true"
+  },
+  {
+    "Namespace": "aws:elbv2:listener:80",
+    "OptionName": "Protocol",
+    "Value": "HTTP"
+  },
+  {
+    "Namespace": "aws:elbv2:listener:80",
+    "OptionName": "DefaultProcess",
+    "Value": "default"
+  },
+  {
+    "Namespace": "aws:autoscaling:launchconfiguration",
+    "OptionName": "InstanceType",
+    "Value": "t3a.medium"
+  }
+]
