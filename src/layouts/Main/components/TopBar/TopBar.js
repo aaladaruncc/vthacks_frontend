@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -22,6 +22,17 @@ const TopBar = ({ onSidebarOpen, pages, colorInvert = false }) => {
         portfolio: portfolioPages,
         blog: blogPages,
     } = pages;
+
+    // State to track whether a token exists
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    // Check local storage for token when component mounts
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            setIsLoggedIn(true);
+        }
+    }, []);
 
     return (
         <Box
@@ -51,40 +62,41 @@ const TopBar = ({ onSidebarOpen, pages, colorInvert = false }) => {
                     sx={{
                         width: '100%',
                         height: '100%',
-                        objectFit: 'cover', // Use 'cover' to crop the image
-                        objectPosition: 'center', // Center the image within the container
+                        objectFit: 'cover',
+                        objectPosition: 'center',
                     }}
                 />
             </Box>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }} alignItems={'center'}>
-                <Box>
-                    <ThemeModeToggler />
-                </Box>
 
-                <Box marginLeft={4}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        component="a"
-                        target="blank"
-                        href="/signup"
-                        size="large"
-                    >
-                        Sign Up
-                    </Button>
-                </Box>
-                <Box
-                    component={Button}
-                    variant="outlined"
-                    color="primary"
-                    size="large"
-                    marginTop={{ xs: 2, sm: 0 }}
-                    marginLeft={{ sm: 2 }}
-                    href="/login"
-                    fullWidth={isMd ? false : true}
-                >
-                    Login
-                </Box>
+                {/* Conditionally render the buttons based on token existence */}
+                {!isLoggedIn && (
+                    <>
+                        <Box marginLeft={4}>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                component="a"
+                                href="/signup"
+                                size="large"
+                            >
+                                Sign Up
+                            </Button>
+                        </Box>
+                        <Box
+                            component={Button}
+                            variant="outlined"
+                            color="primary"
+                            size="large"
+                            marginTop={{ xs: 2, sm: 0 }}
+                            marginLeft={{ sm: 2 }}
+                            href="/login"
+                            fullWidth={isMd ? false : true}
+                        >
+                            Login
+                        </Box>
+                    </>
+                )}
             </Box>
             <Box sx={{ display: { xs: 'block', md: 'none' } }} alignItems={'center'}>
                 <Button
