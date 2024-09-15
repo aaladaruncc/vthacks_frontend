@@ -15,9 +15,9 @@ import LaptopSkeletonIllustration from '../../../svg/LaptopSkeleton';
 
 const mock = [
     {
-        title: 'Built for Instructors',
+        title: 'Designed for Future Renters',
         subtitle:
-            'EduKona is built to make your life easier as a Instructor. Full Customizability, Documentation, and ready made Game Features ',
+            'With customizable filters, comprehensive resources, and ready-to-use features, finding your ideal home has never been easier.',
         icon: (
             <svg
                 height={24}
@@ -37,9 +37,9 @@ const mock = [
         ),
     },
     {
-        title: 'Designed to be modern',
+        title: 'Modern and User-Friendly',
         subtitle:
-            'Designed with the latest design trends in mind. EduKona feels modern, minimal, and beautiful.',
+            'Enjoy a modern, minimalistic interface that makes navigating your housing options both enjoyable and efficient.',
         icon: (
             <svg
                 height={24}
@@ -59,9 +59,9 @@ const mock = [
         ),
     },
     {
-        title: 'Documentation for everything',
+        title: 'Comprehensive Resources at Your Fingertips',
         subtitle:
-            'We\'ve written extensive documentation for features and settings, so you never have to look anything up or worry about how to customize quizzes.',
+            'We provide detailed guides and resources for every feature and setting, so you can easily customize your search and stay informed.',
         icon: (
             <svg
                 height={24}
@@ -173,11 +173,11 @@ const Features = () => {
             <Box marginBottom={4}>
                 <Box marginBottom={2}>
                     <Typography variant="h4" align={'center'} sx={{ fontWeight: 700 }}>
-                        For Instructors:
+                        For Future Rentors:
                     </Typography>
                 </Box>
                 <Typography variant="h6" component="p" align={'center'}>
-                    Creating and customizing quizzes can be highly complex,
+                    Finding a place to stay can be very complex,
                 </Typography>
                 <Typography variant="h6" component="p" align={'center'}>
                     but our app simplifies this process, making it fully customizable and easy to use.
