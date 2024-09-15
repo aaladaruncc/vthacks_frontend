@@ -4,7 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGV2aW5iaGF0dCIsImEiOiJjbTEybjVmZXIxNGViMmpxODZndWNkeWtxIn0.5OsReGRpvjRcni-H2U7YKw';
 
-function MapBox({ points = [{ coordinates: [125.6, 10.1], name: "Dinagat Islands" }] }) {
+function MapBox({ points = [{ coordinates: [-78.79068, 35.793662], name: "Dinagat Islands" }] }) {
   const mapContainer = useRef(null); // Ref for the map container
   const map = useRef(null); // Ref for the Mapbox instance
 
@@ -14,9 +14,11 @@ function MapBox({ points = [{ coordinates: [125.6, 10.1], name: "Dinagat Islands
     // Initialize the map
     map.current = new mapboxgl.Map({
       container: mapContainer.current, // Container ID
-      style: 'mapbox://styles/mapbox/streets-v12', // Map style
+      style: 'mapbox://styles/devinbhatt/cm12uxocy005801pd3c5b2ahd', // Detailed style with 3D terrain and buildings
       center: points[0].coordinates, // Center map on the first point
-      zoom: 9 // Starting zoom
+      zoom: 9, // Adjust zoom for better detail visibility
+      pitch: 45, // Tilt the map to view 3D buildings
+      bearing: -17.6 // Adjust map orientation
     });
 
     // Prepare GeoJSON data for multiple points
@@ -46,7 +48,7 @@ function MapBox({ points = [{ coordinates: [125.6, 10.1], name: "Dinagat Islands
         type: 'circle',
         source: 'earthquakes',
         paint: {
-          'circle-radius': 3,
+          'circle-radius': 6,
           'circle-stroke-width': 2,
           'circle-color': 'red',
           'circle-stroke-color': 'white'
