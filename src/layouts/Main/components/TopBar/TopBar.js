@@ -7,6 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import ThemeModeToggler from "../../../../components/ThemeModeToggler";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import logo from './locus.png'; 
 
 const TopBar = ({ onSidebarOpen, pages, colorInvert = false }) => {
     const theme = useTheme();
@@ -54,11 +55,7 @@ const TopBar = ({ onSidebarOpen, pages, colorInvert = false }) => {
             >
                 <Box
                     component={'img'}
-                    src={
-                        mode === 'light' && !colorInvert
-                            ? 'https://elasticbeanstalk-us-west-2-730335402099.s3.us-west-2.amazonaws.com/hice_frontend/EdukonaLog.svg'
-                            : 'https://elasticbeanstalk-us-west-2-730335402099.s3.us-west-2.amazonaws.com/hice_frontend/EdukonaLog.svg'
-                    }
+                    src={logo}
                     sx={{
                         width: '100%',
                         height: '100%',
@@ -66,6 +63,7 @@ const TopBar = ({ onSidebarOpen, pages, colorInvert = false }) => {
                         objectPosition: 'center',
                     }}
                 />
+
             </Box>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }} alignItems={'center'}>
 

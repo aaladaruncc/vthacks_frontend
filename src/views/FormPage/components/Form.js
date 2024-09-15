@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {useNavigate} from 'react-router-dom';
 import {
   TextField,
   Button,
@@ -20,23 +21,19 @@ import axios from 'axios';
 const Form = () => {
   const [formData, setFormData] = useState({
     school: null,
-    restaurantProximity: 1,
-    restaurantPrice: 1,
-    groceryProximity: 1,
-    groceryPrice: 1,
-    gymProximity: 1,
-    gymPrice: 1,
-    serviceImportance: 1,
-    hasCar: '',
-    needsParking: '',
     maxRent: '', // Add max rent
-    campusProximity: 1, // Add proximity to campus
     minBeds: '', // Add min beds
     maxBeds: '', // Add max beds
     minBaths: '', // Add min baths
     maxBaths: '', // Add max baths
-    socialProximity: 1, // Add proximity to social activities
+    hasCar: '',
+    groceryPriority: 1,
+    restaurantPriority: 1,
+    gymPriority: 1,
+    socialPriority: 1, // Add proximity to social activities
+    campusPriority: 1 // Add proximity to campus
   });
+  const navigate = useNavigate();
 
   const [options, setOptions] = useState([]);
   const [inputValue, setInputValue] = useState('');
@@ -65,26 +62,31 @@ const Form = () => {
 
     delete submissionData.school;
 
-    console.log(submissionData);
+    console.log(submissionData)
 
     // Retrieve the token from local storage
     const token = localStorage.getItem('token');
 
     try {
       const response = await axios.post(
-        'http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/userdata',
+        'http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/user-preferences',
         submissionData,
         {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
+            headers: {
+                'Content-Type': 'application/json',  // Specify JSON content type
+                'Authorization': `Token ${token}`,  // Include the token for authorization
+            },
         }
       );
       console.log('Form submitted successfully:', response.data);
+      if(response.status == 200) {
+        navigate('/');
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
     }
   };
+
 
   const sliderMarks = [
     { value: 1, label: '1' },
@@ -107,16 +109,21 @@ const Form = () => {
       }
 
       const fetchSchools = async () => {
+        // Retrieve the token from local storage
         const token = localStorage.getItem('token');
+
 
         try {
           const response = await axios.get(
-            `http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/uni?query=${encodeURIComponent(inputValue)}`,
-            {
-              headers: {
-                Authorization: `Token ${token}`,
-              },
-            }
+              `http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/uni?query=${encodeURIComponent(
+                  inputValue
+              )}`,
+              {
+                headers: {
+                  // Set the token in the Authorization header
+                  Authorization: `Token ${token}`,
+                },
+              }
           );
           console.log('Fetched schools:', response.data);
           setOptions(response.data);
@@ -124,6 +131,7 @@ const Form = () => {
           console.error('Error fetching schools:', error);
         }
       };
+
 
       fetchSchools();
     }, 500);
@@ -260,9 +268,9 @@ const Form = () => {
                 <Typography variant="h6">Campus</Typography>
                 <Typography variant="subtitle1">How important is it to be close to campus?</Typography>
                 <Slider
-                  name="campusProximity"
+                  name="campusPriority"
                   value={formData.campusProximity}
-                  onChange={handleSliderChange('campusProximity')}
+                  onChange={handleSliderChange('campusPriority')}
                   step={1}
                   marks={sliderMarks}
                   min={1}
@@ -276,9 +284,9 @@ const Form = () => {
                 <Typography variant="h6">Restaurants</Typography>
                 <Typography variant="subtitle1">How important are nearby restaurants?</Typography>
                 <Slider
-                  name="restaurantProximity"
+                  name="restaurantPriority"
                   value={formData.restaurantProximity}
-                  onChange={handleSliderChange('restaurantProximity')}
+                  onChange={handleSliderChange('restaurantPriority')}
                   step={1}
                   marks={sliderMarks}
                   min={1}
@@ -293,9 +301,9 @@ const Form = () => {
                   <Typography variant="h6">Groceries</Typography>
                   <Typography variant="subtitle1">How important is a nearby grocery store?</Typography>
                   <Slider
-                    name="groceryProximity"
+                    name="groceryPriority"
                     value={formData.groceryProximity}
-                    onChange={handleSliderChange('groceryProximity')}
+                    onChange={handleSliderChange('groceryPriority')}
                     step={1}
                     marks={sliderMarks}
                     min={1}
@@ -309,9 +317,9 @@ const Form = () => {
                   <Typography variant="h6">Gyms</Typography>
                   <Typography variant="subtitle1">How important is a nearby gym?</Typography>
                   <Slider
-                    name="gymProximity"
+                    name="gymPriority"
                     value={formData.gymProximity}
-                    onChange={handleSliderChange('gymProximity')}
+                    onChange={handleSliderChange('gymPriority')}
                     step={1}
                     marks={sliderMarks}
                     min={1}
@@ -325,9 +333,9 @@ const Form = () => {
                   <Typography variant="h6">Entertainment</Typography>
                   <Typography variant="subtitle1">How important are social activities?</Typography>
                   <Slider
-                    name="socialProximity"
+                    name="socialPriority"
                     value={formData.socialProximity}
-                    onChange={handleSliderChange('socialProximity')}
+                    onChange={handleSliderChange('socialPriority')}
                     step={1}
                     marks={sliderMarks}
                     min={1}
@@ -346,8 +354,6 @@ const Form = () => {
         </Paper>
       </Container>
     );
-    
-  };
-  
-  export default Form;
-  
+};
+
+export default Form;
