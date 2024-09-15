@@ -15,6 +15,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'aos/dist/aos.css';
 import Page from './components/Page';
 import SignUp from "./views/SignUp/SignUp";
+import Dashboard from "./views/Dashboard/Dashboard";
 import Login from "./views/Login/Login";
 
 function App() {
@@ -38,7 +39,8 @@ function App() {
       <Page>
           <Router>
               <Routes>
-                  <Route path='/' element={isLoggedIn ? <MapPage /> : <Landing/>}/>
+
+                  <Route path='/' element={isLoggedIn ? <Dashboard /> : <Landing/>}/>
                   <Route path='/map' element={isLoggedIn ? <MapPage/> : <Landing/>} />
                   <Route path='/signup' element={isLoggedIn ? <Navigate to="/"/> : <SignUp/>} />
                   <Route path={'/login'} element={isLoggedIn ? <Navigate to="/"/> : <Login/>}/>
