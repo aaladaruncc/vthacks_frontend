@@ -1,9 +1,9 @@
 branch-defaults:
   main:
-    environment: vthacks_frontend
+    environment: vthacks-frontend-prod
 
 environment-defaults:
-  vthacks_frontend:
+  vthacks-frontend-prod:
     branch: main
     repository: null
 
