@@ -27,6 +27,6 @@
   {
     "Namespace": "aws:autoscaling:launchconfiguration",
     "OptionName": "InstanceType",
-    "Value": "t3a.medium"
+    "Value": "t3.medium"
   }
 ]

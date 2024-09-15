@@ -1,14 +1,15 @@
 branch-defaults:
   main:
-    environment: vthacks-frontend-prod
-
+    environment: prod
+  map:
+    environment: prod
+    group_suffix: null
 environment-defaults:
-  vthacks-frontend-prod:
-    branch: main
+  prod:
+    branch: null
     repository: null
-
 global:
-  application_name: vthacks_frontend
+  application_name: vthacks-frontend
   default_ec2_keyname: null
   default_platform: Node.js 18 running on 64bit Amazon Linux 2023
   default_region: us-west-2
@@ -16,5 +17,6 @@ global:
   instance_profile: aws-elasticbeanstalk-ec2-role
   platform_name: null
   platform_version: null
+  profile: null
   sc: git
   workspace_type: Application
