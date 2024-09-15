@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      APP_NAME: ${{ secrets.EBS_APP_NAME }}
-      PRODUCTION_ENV_NAME: ${{ secrets.EBS_ENV_BASE }}
-      AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+      APP_NAME: vthacks-frontend
+      PRODUCTION_ENV_NAME: prod
+      AWS_DEFAULT_REGION: us-west-2
 
     steps:
       - name: Checkout source code
