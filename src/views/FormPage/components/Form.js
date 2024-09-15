@@ -29,6 +29,13 @@ const Form = () => {
     serviceImportance: 1,
     hasCar: '',
     needsParking: '',
+    maxRent: '', // Add max rent
+    campusProximity: 1, // Add proximity to campus
+    minBeds: '', // Add min beds
+    maxBeds: '', // Add max beds
+    minBaths: '', // Add min baths
+    maxBaths: '', // Add max baths
+    socialProximity: 1, // Add proximity to social activities
   });
 
   const [options, setOptions] = useState([]);
@@ -58,28 +65,26 @@ const Form = () => {
 
     delete submissionData.school;
 
-    console.log(submissionData)
+    console.log(submissionData);
 
     // Retrieve the token from local storage
     const token = localStorage.getItem('token');
 
     try {
       const response = await axios.post(
-          'http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/userdata',
-          submissionData,
-          {
-            headers: {
-              // Set the token in the Authorization header
-              Authorization: `Token ${token}`,
-            },
-          }
+        'http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/userdata',
+        submissionData,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
       );
       console.log('Form submitted successfully:', response.data);
     } catch (error) {
       console.error('Error submitting form:', error);
     }
   };
-
 
   const sliderMarks = [
     { value: 1, label: '1' },
@@ -102,21 +107,16 @@ const Form = () => {
       }
 
       const fetchSchools = async () => {
-        // Retrieve the token from local storage
         const token = localStorage.getItem('token');
-
 
         try {
           const response = await axios.get(
-              `http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/uni?query=${encodeURIComponent(
-                  inputValue
-              )}`,
-              {
-                headers: {
-                  // Set the token in the Authorization header
-                  Authorization: `Token ${token}`,
-                },
-              }
+            `http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/uni?query=${encodeURIComponent(inputValue)}`,
+            {
+              headers: {
+                Authorization: `Token ${token}`,
+              },
+            }
           );
           console.log('Fetched schools:', response.data);
           setOptions(response.data);
@@ -124,7 +124,6 @@ const Form = () => {
           console.error('Error fetching schools:', error);
         }
       };
-
 
       fetchSchools();
     }, 500);
@@ -135,23 +134,24 @@ const Form = () => {
   }, [inputValue, formData.school]);
 
   return (
-      <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
-        <Paper elevation={3} sx={{ p: 4 }}>
-          <Typography variant="h5" component="h1" textAlign="center" gutterBottom>
-            Preferences Form
-          </Typography>
+    <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
+      <Paper elevation={3} sx={{ p: 4 }}>
+        
 
-          <Box
-              component="form"
-              onSubmit={handleSubmit}
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '16px',
-              }}
-          >
-            {/* School Autocomplete Input */}
-            <Autocomplete
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+          }}
+        >
+          <Grid container spacing={3}>
+            {/* Left Side: Other Form Fields */}
+            <Grid item xs={12} md={6}>
+              {/* School Autocomplete Input */}
+              <Autocomplete
                 options={options}
                 getOptionLabel={(option) => option.name}
                 filterOptions={(x) => x} // Disable built-in filtering
@@ -171,53 +171,111 @@ const Form = () => {
                   setOptions([]);
                 }}
                 renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label="School"
-                        variant="outlined"
-                        fullWidth
-                        required
-                    />
+                  <TextField {...params} label="School" variant="outlined" fullWidth required />
                 )}
-            />
+              />
 
-            {/* Has Car and Needs Parking */}
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <FormControl component="fieldset" fullWidth>
-                  <FormLabel component="legend">Do you have a car?</FormLabel>
-                  <RadioGroup
-                      row
-                      name="hasCar"
-                      value={formData.hasCar}
-                      onChange={handleChange}
-                  >
-                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel value="no" control={<Radio />} label="No" />
-                  </RadioGroup>
-                </FormControl>
+              {/* Maximum Rent */}
+              <TextField
+                label="Maximum Rent ($)"
+                name="maxRent"
+                type="number"
+                value={formData.maxRent}
+                onChange={handleChange}
+                fullWidth
+                required
+                sx={{ mt: 2 }}
+              />
+
+              {/* Min/Max Beds and Baths */}
+              <Grid container spacing={2} sx={{ mt: 1 }}>
+                <Grid item xs={6}>
+                  <TextField
+                    label="Min Beds"
+                    name="minBeds"
+                    type="number"
+                    value={formData.minBeds}
+                    onChange={handleChange}
+                    fullWidth
+                    required
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    label="Max Beds"
+                    name="maxBeds"
+                    type="number"
+                    value={formData.maxBeds}
+                    onChange={handleChange}
+                    fullWidth
+                    required
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    label="Min Baths"
+                    name="minBaths"
+                    type="number"
+                    value={formData.minBaths}
+                    onChange={handleChange}
+                    fullWidth
+                    required
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    label="Max Baths"
+                    name="maxBaths"
+                    type="number"
+                    value={formData.maxBaths}
+                    onChange={handleChange}
+                    fullWidth
+                    required
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl component="fieldset" fullWidth>
-                  <FormLabel component="legend">Do you need parking?</FormLabel>
-                  <RadioGroup
-                      row
-                      name="needsParking"
-                      value={formData.needsParking}
-                      onChange={handleChange}
-                  >
-                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                    <FormControlLabel value="no" control={<Radio />} label="No" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
+
+              {/* Radio Buttons for Car and Parking */}
+              <FormControl component="fieldset" sx={{ mt: 2 }}>
+                <FormLabel component="legend">Do you have a car?</FormLabel>
+                <RadioGroup
+                  row
+                  aria-label="hasCar"
+                  name="hasCar"
+                  value={formData.hasCar}
+                  onChange={handleChange}
+                >
+                  <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                  <FormControlLabel value="no" control={<Radio />} label="No" />
+                </RadioGroup>
+              </FormControl>
+
+            
             </Grid>
 
-            {/* Preferences Sections */}
-            <Box sx={{ mb: -1 }}>
-              <Typography variant="h6">Restaurants</Typography>
-              <Typography variant="subtitle1">How important is this to you?</Typography>
-              <Slider
+            {/* Right Side: Sliders */}
+            <Grid item xs={12} md={6}>
+              {/* Proximity to Campus */}
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="h6">Campus</Typography>
+                <Typography variant="subtitle1">How important is it to be close to campus?</Typography>
+                <Slider
+                  name="campusProximity"
+                  value={formData.campusProximity}
+                  onChange={handleSliderChange('campusProximity')}
+                  step={1}
+                  marks={sliderMarks}
+                  min={1}
+                  max={5}
+                  valueLabelDisplay="auto"
+                />
+              </Box>
+
+              {/* Restaurants */}
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="h6">Restaurants</Typography>
+                <Typography variant="subtitle1">How important are nearby restaurants?</Typography>
+                <Slider
                   name="restaurantProximity"
                   value={formData.restaurantProximity}
                   onChange={handleSliderChange('restaurantProximity')}
@@ -226,94 +284,70 @@ const Form = () => {
                   min={1}
                   max={5}
                   valueLabelDisplay="auto"
-              />
-              <Typography variant="subtitle1" sx={{ mt: 1 }}>How big is your budget?</Typography>
-              <Slider
-                  name="restaurantPrice"
-                  value={formData.restaurantPrice}
-                  onChange={handleSliderChange('restaurantPrice')}
-                  step={1}
-                  marks={sliderMarks}
-                  min={1}
-                  max={5}
-                  valueLabelDisplay="auto"
-              />
-            </Box>
-
-            <Box sx={{ mb: -1 }}>
-              <Typography variant="h6">Groceries</Typography>
-              <Typography variant="subtitle1">How important is this to you?</Typography>
-              <Slider
-                  name="groceryProximity"
-                  value={formData.groceryProximity}
-                  onChange={handleSliderChange('groceryProximity')}
-                  step={1}
-                  marks={sliderMarks}
-                  min={1}
-                  max={5}
-                  valueLabelDisplay="auto"
-              />
-              <Typography variant="subtitle1" sx={{ mt: 1 }}>How big is your budget?</Typography>
-              <Slider
-                  name="groceryPrice"
-                  value={formData.groceryPrice}
-                  onChange={handleSliderChange('groceryPrice')}
-                  step={1}
-                  marks={sliderMarks}
-                  min={1}
-                  max={5}
-                  valueLabelDisplay="auto"
-              />
-            </Box>
-
-            <Box sx={{ mb: -1 }}>
-              <Typography variant="h6">Gyms</Typography>
-              <Typography variant="subtitle1">How important is this to you?</Typography>
-              <Slider
-                  name="gymProximity"
-                  value={formData.gymProximity}
-                  onChange={handleSliderChange('gymProximity')}
-                  step={1}
-                  marks={sliderMarks}
-                  min={1}
-                  max={5}
-                  valueLabelDisplay="auto"
-              />
-              <Typography variant="subtitle1" sx={{ mt: 1 }}>How big is your budget?</Typography>
-              <Slider
-                  name="gymPrice"
-                  value={formData.gymPrice}
-                  onChange={handleSliderChange('gymPrice')}
-                  step={1}
-                  marks={sliderMarks}
-                  min={1}
-                  max={5}
-                  valueLabelDisplay="auto"
-              />
-            </Box>
-
-            <Box sx={{ mb: -1 }}>
-              <Typography variant="h6">Maintenance</Typography>
-              <Typography variant="subtitle1">How upscale do you want to live?</Typography>
-              <Slider
-                  name="serviceImportance"
-                  value={formData.serviceImportance}
-                  onChange={handleSliderChange('serviceImportance')}
-                  step={1}
-                  marks={sliderMarks}
-                  min={1}
-                  max={5}
-                  valueLabelDisplay="auto"
-              />
-            </Box>
-
-            <Button type="submit" variant="contained" color="primary" fullWidth>
+                    
+                  />
+                </Box>
+  
+                {/* Groceries */}
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="h6">Groceries</Typography>
+                  <Typography variant="subtitle1">How important is a nearby grocery store?</Typography>
+                  <Slider
+                    name="groceryProximity"
+                    value={formData.groceryProximity}
+                    onChange={handleSliderChange('groceryProximity')}
+                    step={1}
+                    marks={sliderMarks}
+                    min={1}
+                    max={5}
+                    valueLabelDisplay="auto"
+                  />
+                </Box>
+  
+                {/* Gyms */}
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="h6">Gyms</Typography>
+                  <Typography variant="subtitle1">How important is a nearby gym?</Typography>
+                  <Slider
+                    name="gymProximity"
+                    value={formData.gymProximity}
+                    onChange={handleSliderChange('gymProximity')}
+                    step={1}
+                    marks={sliderMarks}
+                    min={1}
+                    max={5}
+                    valueLabelDisplay="auto"
+                  />
+                </Box>
+  
+                {/* Social Activities */}
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="h6">Entertainment</Typography>
+                  <Typography variant="subtitle1">How important are social activities?</Typography>
+                  <Slider
+                    name="socialProximity"
+                    value={formData.socialProximity}
+                    onChange={handleSliderChange('socialProximity')}
+                    step={1}
+                    marks={sliderMarks}
+                    min={1}
+                    max={5}
+                    valueLabelDisplay="auto"
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+  
+            {/* Submit Button */}
+            <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
               Submit
             </Button>
           </Box>
         </Paper>
       </Container>
-  );
-};
-
-export default Form;
+    );
+    
+  };
+  
+  export default Form;
+  

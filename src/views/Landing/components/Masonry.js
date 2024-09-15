@@ -16,8 +16,8 @@ import { colors } from '@mui/material';
 const mock = [
     {
         color: colors.lightBlue[500],
-        title: 'Web design',
-        subtitle: 'Choose thousands of Web design online course.',
+        title: 'Your Preferences',
+        subtitle: "Tell us what you're looking for, we'll do all the work",
         icon: (
             <svg
                 height={24}
@@ -38,8 +38,8 @@ const mock = [
     },
     {
         color: colors.yellow[500],
-        title: 'Photography',
-        subtitle: 'Choose thousands of photography online course.',
+        title: 'Our Algorithm',
+        subtitle: 'We take into account the things that matter',
         icon: (
             <svg
                 height={24}
@@ -66,8 +66,8 @@ const mock = [
     },
     {
         color: colors.indigo[500],
-        title: 'Video creating',
-        subtitle: 'Choose thousands of Video creating online course.',
+        title: 'Your Budget',
+        subtitle: 'We make sure your get what you want at the price you want',
         icon: (
             <svg
                 height={24}
@@ -88,8 +88,8 @@ const mock = [
     },
     {
         color: colors.deepPurple[500],
-        title: 'Graphic design',
-        subtitle: 'Choose thousands of Graphic design online course.',
+        title: 'Our Personalization',
+        subtitle: 'We factor everything into the cost of living, including your lifestyle',
         icon: (
             <svg
                 height={24}
@@ -199,25 +199,25 @@ const Masonry = () => {
                     gutterBottom
                     color={'primary'}
                 >
-                    SEAMLESS INTEGRATION
+                    SEAMLESS HOUSING SOLUTIONS
+
                 </Typography>
             </Box>
             <Box marginBottom={2}>
                 <Typography variant={'h4'} sx={{ fontWeight: 700 }} gutterBottom>
-                    The powerful and flexible theme for all kinds of businesses
+                Tailored, cost-effective solutions for every housing need.
+
                 </Typography>
                 <Typography color="text.secondary" variant={'h6'}>
-                    Send one-off and automated email, push, and in-app messages to people.
+                    We'll find the place, just send us your preferences
                     <br />
-                    Create better stories.
                 </Typography>
             </Box>
             <Grid container spacing={1}>
                 {[
-                    'Lifetime updates & introduction and working',
-                    'Tech support & mutual funds',
-                    'Tons of assets & lifetime updates',
-                    'Integration ready & tech support',
+                    'Effortlessly match with affordable homes through automated recommendations and personalized services.',
+                    'Discover and secure housing that fits your budget and lifestyle with ease.',
+                    'Continuous updates and improvements to ensure the best options are always available',
                 ].map((item, i) => (
                     <Grid item xs={12} key={i}>
                         <Box component={ListItem} disableGutters width={'auto'} padding={0}>

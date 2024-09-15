@@ -19,6 +19,7 @@ import Login from "./views/Login/Login";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+    const [hasPref, setPref] = useState(!!localStorage.getItem('token'));
 
     useEffect(() => {
         const checkAuthStatus = () => {
@@ -37,11 +38,13 @@ function App() {
       <Page>
           <Router>
               <Routes>
-                  <Route path='/' element={isLoggedIn ? <FormPage /> : <Landing/>}/>
+                  <Route path='/' element={isLoggedIn ? <MapPage /> : <Landing/>}/>
                   <Route path='/map' element={isLoggedIn ? <MapPage/> : <Landing/>} />
                   <Route path='/signup' element={isLoggedIn ? <Navigate to="/"/> : <SignUp/>} />
                   <Route path={'/login'} element={isLoggedIn ? <Navigate to="/"/> : <Login/>}/>
+                  <Route path='/preferences' element={isLoggedIn ? <FormPage/> : <Navigate to="/"/>} />
 
+ 
               </Routes>
           </Router>
       </Page>

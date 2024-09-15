@@ -17,7 +17,7 @@ const Hero = () => {
         <Box>
             <Box marginBottom={2}>
                 <Typography component={'span'} variant="h3" sx={{ fontWeight: 700 }}>
-                    Fueling Business Growth with{' '}
+                Transforming the way you find your{' '}
                     <Typography
                         component={'span'}
                         variant={'inherit'}
@@ -29,12 +29,12 @@ const Hero = () => {
                             )} 0%)`,
                         }}
                     >
-                        Tailored Strategies
+                        Perfect Rental.
                     </Typography>
                 </Typography>
             </Box>
             <Typography variant="h6" component="p" color={'text.secondary'}>
-                Our mission is to help you focus on what you do best. Let us handle the rest.
+            Find the Best Housing Options That Fit Your Budget and Lifestyle
             </Typography>
             <Box
                 display="flex"
