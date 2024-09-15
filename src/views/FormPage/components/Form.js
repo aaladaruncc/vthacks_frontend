@@ -58,16 +58,28 @@ const Form = () => {
 
     delete submissionData.school;
 
+    console.log(submissionData)
+
+    // Retrieve the token from local storage
+    const token = localStorage.getItem('token');
+
     try {
       const response = await axios.post(
           'http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/userdata',
-          submissionData
+          submissionData,
+          {
+            headers: {
+              // Set the token in the Authorization header
+              Authorization: `Token ${token}`,
+            },
+          }
       );
       console.log('Form submitted successfully:', response.data);
     } catch (error) {
       console.error('Error submitting form:', error);
     }
   };
+
 
   const sliderMarks = [
     { value: 1, label: '1' },
@@ -90,11 +102,21 @@ const Form = () => {
       }
 
       const fetchSchools = async () => {
+        // Retrieve the token from local storage
+        const token = localStorage.getItem('token');
+
+
         try {
           const response = await axios.get(
               `http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/uni?query=${encodeURIComponent(
                   inputValue
-              )}`
+              )}`,
+              {
+                headers: {
+                  // Set the token in the Authorization header
+                  Authorization: `Token ${token}`,
+                },
+              }
           );
           console.log('Fetched schools:', response.data);
           setOptions(response.data);
@@ -102,6 +124,7 @@ const Form = () => {
           console.error('Error fetching schools:', error);
         }
       };
+
 
       fetchSchools();
     }, 500);
