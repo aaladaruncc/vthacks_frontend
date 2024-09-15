@@ -32,7 +32,7 @@ const Form = () => {
     const onSubmit = async (values, { setSubmitting, setErrors }) => {
         try {
             // Make API call to login
-            const response = await axios.post('http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/login/', {
+            const response = await axios.post(process.env.REACT_APP_HOST.toString() + 'login/', {
                 username: values.username,
                 password: values.password,
             });

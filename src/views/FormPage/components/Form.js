@@ -65,7 +65,7 @@ const Form = () => {
 
     try {
       const response = await axios.post(
-          'http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/userdata',
+          process.env.REACT_APP_HOST.toString()  + 'userdata',
           submissionData,
           {
             headers: {
@@ -108,7 +108,7 @@ const Form = () => {
 
         try {
           const response = await axios.get(
-              `http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/uni?query=${encodeURIComponent(
+              process.env.REACT_APP_HOST.toString() + `uni?query=${encodeURIComponent(
                   inputValue
               )}`,
               {

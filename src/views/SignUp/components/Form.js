@@ -56,7 +56,7 @@ const Form = () => {
     const onSubmit = async (values, { resetForm }) => {
         try {
             // Values will be sent as is, with appropriate field names
-            const response = await axios.post('http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/signup/', values); // Change URL to actual API
+            const response = await axios.post(process.env.toString() + 'signup/', values); // Change URL to actual API
             console.log('Response:', response.data);
 
             localStorage.setItem('token', response.data.token)
