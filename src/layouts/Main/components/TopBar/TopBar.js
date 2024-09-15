@@ -67,34 +67,18 @@ const TopBar = ({ onSidebarOpen, pages, colorInvert = false }) => {
             </Box>
             <Box sx={{ display: { xs: 'none', md: 'flex' } }} alignItems={'center'}>
 
-                {/* Conditionally render the buttons based on token existence */}
-                {!isLoggedIn && (
-                    <>
-                        <Box marginLeft={4}>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                component="a"
-                                href="/signup"
-                                size="large"
-                            >
-                                Sign Up
-                            </Button>
-                        </Box>
-                        <Box
-                            component={Button}
-                            variant="outlined"
-                            color="primary"
-                            size="large"
-                            marginTop={{ xs: 2, sm: 0 }}
-                            marginLeft={{ sm: 2 }}
-                            href="/login"
-                            fullWidth={isMd ? false : true}
-                        >
-                            Login
-                        </Box>
-                    </>
-                )}
+                <Box
+                    component={Button}
+                    variant="outlined"
+                    color="primary"
+                    size="large"
+                    marginTop={{ xs: 2, sm: 0 }}
+                    marginLeft={{ sm: 2 }}
+                    href="/preferences"
+                    fullWidth={isMd ? false : true}
+                >
+                    Try it out!
+                </Box>
             </Box>
             <Box sx={{ display: { xs: 'block', md: 'none' } }} alignItems={'center'}>
                 <Button

@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import {useNavigate} from 'react-router-dom';
 
 // Validation schema for form fields
 const validationSchema = yup.object({
@@ -51,6 +52,7 @@ const Form = () => {
         email: '',
         password: '',
     };
+    const navigate = useNavigate();
 
     // Submit handler with axios API call
     const onSubmit = async (values, { resetForm }) => {
@@ -62,8 +64,11 @@ const Form = () => {
             localStorage.setItem('token', response.data.token)
             // Handle success (e.g., show success message, redirect, etc.)
             resetForm(); // Optionally reset the form after successful submission
-
-            window.location.reload();
+            
+            if (localStorage.getItem('token')){
+                navigate('/preferences')
+            }
+            
         } catch (error) {
             console.error('Error during API call:', error.response ? error.response.data : error.message);
             // Handle error (e.g., show error message to the user)

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   TextField,
   Button,
@@ -18,20 +18,20 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 
-const Form = ({data, setData}) => {
+const Form = ({ data, setData }) => {
   const [formData, setFormData] = useState({
     school: null,
-    maxRent: '', // Add max rent
-    minBeds: '', // Add min beds
-    maxBeds: '', // Add max beds
-    minBaths: '', // Add min baths
-    maxBaths: '', // Add max baths
+    maxRent: '',
+    minBeds: '',
+    maxBeds: '',
+    minBaths: '',
+    maxBaths: '',
     hasCar: '',
     groceryPriority: 1,
     restaurantPriority: 1,
     gymPriority: 1,
-    socialPriority: 1, // Add proximity to social activities
-    campusPriority: 1 // Add proximity to campus
+    entertainmentPriority: 1,
+    campusDistancePriority: 1
   });
   const navigate = useNavigate();
 
@@ -40,17 +40,19 @@ const Form = ({data, setData}) => {
   const [responseData, setResponseData] = useState(null);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    // Convert numerical values to numbers
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: name.includes('Priority') ? parseInt(value, 10) : value,
+    }));
   };
 
   const handleSliderChange = (name) => (e, newValue) => {
-    setFormData({
-      ...formData,
+    setFormData(prevData => ({
+      ...prevData,
       [name]: newValue,
-    });
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -58,42 +60,45 @@ const Form = ({data, setData}) => {
 
     const submissionData = {
       ...formData,
+      maxRent: formData.maxRent ? parseInt(formData.maxRent, 10) : null,
+      minBeds: formData.minBeds ? parseInt(formData.minBeds, 10) : null,
+      maxBeds: formData.maxBeds ? parseInt(formData.maxBeds, 10) : null,
+      minBaths: formData.minBaths ? parseInt(formData.minBaths, 10) : null,
+      maxBaths: formData.maxBaths ? parseInt(formData.maxBaths, 10) : null,
+      campusDistancePriority: parseInt(formData.campusDistancePriority, 10),
+      restaurantPriority: parseInt(formData.restaurantPriority, 10),
+      groceryPriority: parseInt(formData.groceryPriority, 10),
+      gymPriority: parseInt(formData.gymPriority, 10),
+      entertainmentPriority: parseInt(formData.entertainmentPriority, 10),
       schoolId: formData.school ? formData.school.id : null,
     };
 
     delete submissionData.school;
 
-    console.log(submissionData)
-
-    // Retrieve the token from local storage
-    const token = localStorage.getItem('token');
+    console.log(submissionData);
 
     try {
       const response = await axios.post(
-        'http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/user-preferences',
+        'https://api.edukona.com/user-preferences/',
         submissionData,
         {
-            headers: {
-                'Content-Type': 'application/json',  // Specify JSON content type
-                'Authorization': `Token ${token}`,  // Include the token for authorization
-            },
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token df4e0d7c28242b0ca9802200b6d36d75c24d2f36`,
+          },
         }
       );
       setResponseData(response.data);
-      console.log(response.data);
-      setData(response.data);
+      console.log(response.data.message);
+      setData(response.data.message);
 
-    
-      console.log('Form submitted successfully:', response.data);
-      if(response.status == 200) {
-        navigate('/');
-
+      if (response.status === 200) {
+        navigate('/dashboard');
       }
     } catch (error) {
       console.error('Error submitting form:', error);
     }
   };
-
 
   const sliderMarks = [
     { value: 1, label: '1' },
@@ -116,29 +121,20 @@ const Form = ({data, setData}) => {
       }
 
       const fetchSchools = async () => {
-        // Retrieve the token from local storage
-        const token = localStorage.getItem('token');
-
-
         try {
           const response = await axios.get(
-              `http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/uni?query=${encodeURIComponent(
-                  inputValue
-              )}`,
-              {
-                headers: {
-                  // Set the token in the Authorization header
-                  Authorization: `Token ${token}`,
-                },
-              }
+            `http://vthacks.eba-gx8k6bzb.us-west-2.elasticbeanstalk.com/uni?query=${encodeURIComponent(inputValue)}`,
+            {
+              headers: {
+                Authorization: `Token df4e0d7c28242b0ca9802200b6d36d75c24d2f36`,
+              },
+            }
           );
-          console.log('Fetched schools:', response.data);
           setOptions(response.data);
         } catch (error) {
           console.error('Error fetching schools:', error);
         }
       };
-
 
       fetchSchools();
     }, 500);
@@ -151,8 +147,6 @@ const Form = ({data, setData}) => {
   return (
     <Container maxWidth="md" sx={{ pt: 3, pb: 5 }}>
       <Paper elevation={3} sx={{ p: 4 }}>
-        
-
         <Box
           component="form"
           onSubmit={handleSubmit}
@@ -163,13 +157,11 @@ const Form = ({data, setData}) => {
           }}
         >
           <Grid container spacing={3}>
-            {/* Left Side: Other Form Fields */}
             <Grid item xs={12} md={6}>
-              {/* School Autocomplete Input */}
               <Autocomplete
                 options={options}
                 getOptionLabel={(option) => option.name}
-                filterOptions={(x) => x} // Disable built-in filtering
+                filterOptions={(x) => x}
                 inputValue={inputValue}
                 onInputChange={(event, newInputValue, reason) => {
                   if (reason === 'input') {
@@ -180,7 +172,7 @@ const Form = ({data, setData}) => {
                 onChange={(event, newValue) => {
                   setFormData({
                     ...formData,
-                    school: newValue,
+                    school: newValue ? { ...newValue, id: String(newValue.unitid) } : null,
                   });
                   setInputValue(newValue ? newValue.name : '');
                   setOptions([]);
@@ -190,26 +182,24 @@ const Form = ({data, setData}) => {
                 )}
               />
 
-              {/* Maximum Rent */}
               <TextField
                 label="Maximum Rent ($)"
                 name="maxRent"
                 type="number"
-                value={formData.maxRent}
+                value={formData.maxRent || ''}
                 onChange={handleChange}
                 fullWidth
                 required
                 sx={{ mt: 2 }}
               />
 
-              {/* Min/Max Beds and Baths */}
               <Grid container spacing={2} sx={{ mt: 1 }}>
                 <Grid item xs={6}>
                   <TextField
                     label="Min Beds"
                     name="minBeds"
                     type="number"
-                    value={formData.minBeds}
+                    value={formData.minBeds || ''}
                     onChange={handleChange}
                     fullWidth
                     required
@@ -220,7 +210,7 @@ const Form = ({data, setData}) => {
                     label="Max Beds"
                     name="maxBeds"
                     type="number"
-                    value={formData.maxBeds}
+                    value={formData.maxBeds || ''}
                     onChange={handleChange}
                     fullWidth
                     required
@@ -231,7 +221,7 @@ const Form = ({data, setData}) => {
                     label="Min Baths"
                     name="minBaths"
                     type="number"
-                    value={formData.minBaths}
+                    value={formData.minBaths || ''}
                     onChange={handleChange}
                     fullWidth
                     required
@@ -242,7 +232,7 @@ const Form = ({data, setData}) => {
                     label="Max Baths"
                     name="maxBaths"
                     type="number"
-                    value={formData.maxBaths}
+                    value={formData.maxBaths || ''}
                     onChange={handleChange}
                     fullWidth
                     required
@@ -250,7 +240,6 @@ const Form = ({data, setData}) => {
                 </Grid>
               </Grid>
 
-              {/* Radio Buttons for Car and Parking */}
               <FormControl component="fieldset" sx={{ mt: 2 }}>
                 <FormLabel component="legend">Do you have a car?</FormLabel>
                 <RadioGroup
@@ -264,20 +253,16 @@ const Form = ({data, setData}) => {
                   <FormControlLabel value="no" control={<Radio />} label="No" />
                 </RadioGroup>
               </FormControl>
-
-            
             </Grid>
 
-            {/* Right Side: Sliders */}
             <Grid item xs={12} md={6}>
-              {/* Proximity to Campus */}
               <Box sx={{ mb: 2 }}>
                 <Typography variant="h6">Campus</Typography>
                 <Typography variant="subtitle1">How important is it to be close to campus?</Typography>
                 <Slider
-                  name="campusPriority"
-                  value={formData.campusProximity}
-                  onChange={handleSliderChange('campusPriority')}
+                  name="campusDistancePriority"
+                  value={formData.campusDistancePriority}
+                  onChange={handleSliderChange('campusDistancePriority')}
                   step={1}
                   marks={sliderMarks}
                   min={1}
@@ -286,81 +271,75 @@ const Form = ({data, setData}) => {
                 />
               </Box>
 
-              {/* Restaurants */}
               <Box sx={{ mb: 2 }}>
                 <Typography variant="h6">Restaurants</Typography>
                 <Typography variant="subtitle1">How important are nearby restaurants?</Typography>
                 <Slider
                   name="restaurantPriority"
-                  value={formData.restaurantProximity}
+                  value={formData.restaurantPriority}
                   onChange={handleSliderChange('restaurantPriority')}
                   step={1}
                   marks={sliderMarks}
                   min={1}
                   max={5}
                   valueLabelDisplay="auto"
-                    
-                  />
-                </Box>
-  
-                {/* Groceries */}
-                <Box sx={{ mb: 2 }}>
-                  <Typography variant="h6">Groceries</Typography>
-                  <Typography variant="subtitle1">How important is a nearby grocery store?</Typography>
-                  <Slider
-                    name="groceryPriority"
-                    value={formData.groceryProximity}
-                    onChange={handleSliderChange('groceryPriority')}
-                    step={1}
-                    marks={sliderMarks}
-                    min={1}
-                    max={5}
-                    valueLabelDisplay="auto"
-                  />
-                </Box>
-  
-                {/* Gyms */}
-                <Box sx={{ mb: 2 }}>
-                  <Typography variant="h6">Gyms</Typography>
-                  <Typography variant="subtitle1">How important is a nearby gym?</Typography>
-                  <Slider
-                    name="gymPriority"
-                    value={formData.gymProximity}
-                    onChange={handleSliderChange('gymPriority')}
-                    step={1}
-                    marks={sliderMarks}
-                    min={1}
-                    max={5}
-                    valueLabelDisplay="auto"
-                  />
-                </Box>
-  
-                {/* Social Activities */}
-                <Box sx={{ mb: 2 }}>
-                  <Typography variant="h6">Entertainment</Typography>
-                  <Typography variant="subtitle1">How important are social activities?</Typography>
-                  <Slider
-                    name="socialPriority"
-                    value={formData.socialProximity}
-                    onChange={handleSliderChange('socialPriority')}
-                    step={1}
-                    marks={sliderMarks}
-                    min={1}
-                    max={5}
-                    valueLabelDisplay="auto"
-                  />
-                </Box>
-              </Grid>
+                />
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="h6">Groceries</Typography>
+                <Typography variant="subtitle1">How important is a nearby grocery store?</Typography>
+                <Slider
+                  name="groceryPriority"
+                  value={formData.groceryPriority}
+                  onChange={handleSliderChange('groceryPriority')}
+                  step={1}
+                  marks={sliderMarks}
+                  min={1}
+                  max={5}
+                  valueLabelDisplay="auto"
+                />
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="h6">Gyms</Typography>
+                <Typography variant="subtitle1">How important is a nearby gym?</Typography>
+                <Slider
+                  name="gymPriority"
+                  value={formData.gymPriority}
+                  onChange={handleSliderChange('gymPriority')}
+                  step={1}
+                  marks={sliderMarks}
+                  min={1}
+                  max={5}
+                  valueLabelDisplay="auto"
+                />
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <Typography variant="h6">Entertainment</Typography>
+                <Typography variant="subtitle1">How important are social activities?</Typography>
+                <Slider
+                  name="entertainmentPriority"
+                  value={formData.entertainmentPriority}
+                  onChange={handleSliderChange('entertainmentPriority')}
+                  step={1}
+                  marks={sliderMarks}
+                  min={1}
+                  max={5}
+                  valueLabelDisplay="auto"
+                />
+              </Box>
             </Grid>
-  
-            {/* Submit Button */}
-            <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
-              Submit
-            </Button>
-          </Box>
-        </Paper>
-      </Container>
-    );
+          </Grid>
+
+          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
+            Submit
+          </Button>
+        </Box>
+      </Paper>
+    </Container>
+  );
 };
 
 export default Form;
