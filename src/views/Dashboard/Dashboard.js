@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import MapBox from './components/MapBox';
 import DashboardMain from '../../layouts/Main/DashboardMain';
@@ -68,13 +68,16 @@ const mock = {
         }
     ]
 }
-const Dashboard = () => {
+const Dashboard = ({data}) => {
     const theme = useTheme();
     const [center, setCenter] = useState();
     const isMd = useMediaQuery(theme.breakpoints.up('md'), {
         defaultMatches: true,
     });
 
+    // const processData = (data) => {
+    //     // console.log
+    // }
 
 
     return (
@@ -102,7 +105,7 @@ const Dashboard = () => {
                                 height: '85vh', // Ensure it matches the height of the form
                             }}
                         >
-                            <MapBox points={mock} center={center} setCenter={setCenter}/>
+                            <MapBox points={data} center={center} setCenter={setCenter}/>
                         </Paper>
                     </Grid>
                     {/* Form now takes 35% of the width */}
@@ -118,7 +121,7 @@ const Dashboard = () => {
                                 height: '85vh', // Ensure it matches the height of the map
                             }}
                         >
-                            <PropertyList geoJson={mock} center={center} setCenter={setCenter}/>
+                            <PropertyList geoJson={data} center={center} setCenter={setCenter}/>
                         </Paper>
                     </Grid>
                 </Grid>

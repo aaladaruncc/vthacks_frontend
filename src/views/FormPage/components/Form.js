@@ -18,7 +18,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 
-const Form = () => {
+const Form = ({data, setData}) => {
   const [formData, setFormData] = useState({
     school: null,
     maxRent: '', // Add max rent
@@ -37,6 +37,7 @@ const Form = () => {
 
   const [options, setOptions] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [responseData, setResponseData] = useState(null);
 
   const handleChange = (e) => {
     setFormData({
@@ -78,9 +79,15 @@ const Form = () => {
             },
         }
       );
+      setResponseData(response.data);
+      console.log(response.data);
+      setData(response.data);
+
+    
       console.log('Form submitted successfully:', response.data);
       if(response.status == 200) {
         navigate('/');
+
       }
     } catch (error) {
       console.error('Error submitting form:', error);
