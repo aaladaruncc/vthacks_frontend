@@ -2,7 +2,8 @@ import React, { useRef, useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiZGV2aW5iaGF0dCIsImEiOiJjbTEybjVmZXIxNGViMmpxODZndWNkeWtxIn0.5OsReGRpvjRcni-H2U7YKw';
+mapboxgl.accessToken = process.env.REACT_APP_MAP_KEY;
+
 
 function MapBox({ points, center }) {
     const mapContainer = useRef(null); // Ref for the map container
