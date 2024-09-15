@@ -66,12 +66,12 @@ function MapBox({ points = [{ coordinates: [-78.79068, 35.793662], name: "Dinaga
   }, [points]); // Re-run effect when points change
 
   return (
-    <div style={{ display: 'flex', height: '100vh' }}>
+    <div >
       {/* Map takes 3/4 of the width */}
       <div 
         ref={mapContainer} 
         className="map-container" 
-        style={{ width: '75%', height: '100%' }} 
+         // style={{ width: '50%', height: '100%' }} 
       />
     </div>
   );

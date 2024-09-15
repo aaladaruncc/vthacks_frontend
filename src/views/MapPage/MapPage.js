@@ -2,21 +2,33 @@ import React from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import MapBox from './components/MapBox';
 import Main from '../../layouts/Main'// Ensure you import the correct Form component
+import Form from './components/Form';
+import { Grid, Box } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@emotion/react';
 
 const FormPage = () => {
+    const theme = useTheme();
+
+    const isMd = useMediaQuery(theme.breakpoints.up('md'), {
+        defaultMatches: true,
+    });
+
   return (
-      <Main>
-      <MapBox 
-//   points={[
-//     { coordinates: [40.7128, -74.0060], name: "New York" }
-    // { coordinates: [125.60001, 10.1], name: "Another Location" },
-    // { coordinates: [125.65, 10.1], name: "Yet Another Location" },
-    // { coordinates: [125.7, 10.1], name: "Yet Another Location" },
-   
-  //]}
-/>
-
-
+    <Main>
+        <Box>
+            <Grid container spacing={4}>
+            <Grid item container alignItems={'center'} xs={12} md={6}>
+                <Box data-aos={isMd ? 'fade-right' : 'fade-up'}>
+                    <MapBox />
+                </Box>
+            </Grid>
+            <Grid item container alignItems={'center'} xs={12} md={6}>
+                <Form />
+            </Grid>
+            </Grid>
+        </Box>
+        
     </Main>
 
   );
